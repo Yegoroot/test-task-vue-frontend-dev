@@ -32,20 +32,14 @@ export default {
 }
 </script>
 
-<style >
-.input {
-  padding: 10px;
-  margin-right: 4px;
-  border: solid 1px #ccc;
-  border-radius: 4px;
-}
-
+<style scoped>
 .contact {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 .contact > div {
   display: flex;
+  padding: 16px;
   flex-direction: column;
 }
 .contact > div span:first-child {

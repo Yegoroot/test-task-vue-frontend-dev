@@ -64,6 +64,7 @@ export default {
   margin-right: 16px;
   border: solid 1px #ccc;
   border-radius: 4px;
+  margin-bottom: 16px;
 }
 .button-edit {
   margin-left: 8px;

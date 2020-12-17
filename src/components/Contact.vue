@@ -1,13 +1,14 @@
 <template>
   <div class="contact">
-    <div
-      v-for="field in fields"
-      :key="field.name"
-      :class="`contact__${field.name}`"
-    >
-      {{ contact[field.name] }}
+    <div class="contact__items">
+      <div
+        v-for="field in fields"
+        :key="field.name"
+        :class="`contact__${field.name}`"
+      >
+        {{ contact[field.name] }}
+      </div>
     </div>
-
     <div class="contact__actions">
       <span
         class="contact__edit"
@@ -56,15 +57,21 @@ export default {
 
 <style >
 .contact {
-  display: grid;
-  grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 160px;
-  padding: 30px;
+  display: flex;
   align-items: center;
   border-bottom: solid 1px #cccccc30;
+  padding: 30px;
 }
 .contact:hover {
   background: #42b98305;
 }
+.contact__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  align-items: center;
+  flex-grow: 1;
+}
+.contact__items > div{padding: 16px}
 .contact__name {
   font-weight: bold;
 }
@@ -73,6 +80,9 @@ export default {
 }
 .contact__actions {
   padding: 10px;
+  width: 150px;
+  flex-direction: row;
+
 }
 .contact__actions span {
   padding: 8px;
