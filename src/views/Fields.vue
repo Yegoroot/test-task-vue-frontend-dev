@@ -1,6 +1,6 @@
 <template>
   <div class="fields">
-    <h1> Fields of Contact </h1>
+    <h1> Fields of Contact 📝</h1>
     <div
       v-for="field in fields"
       :key="field.name"
