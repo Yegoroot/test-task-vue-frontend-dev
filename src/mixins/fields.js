@@ -8,6 +8,7 @@ export const fieldsMixin = {
     fieldsToObj() {
       const obj = {}
       this.fields.map( field => obj[field.name] = field )
+      console.log(obj)
       return obj
     }
   }

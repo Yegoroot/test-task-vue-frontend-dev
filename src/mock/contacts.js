@@ -1,6 +1,8 @@
+import shortid from 'shortid'
+
 export const getContacts = () => ([
   {
-    id: 101,
+    id: shortid.generate(),
     name: 'Петр',
     lastName: 'Первый',
     tel: '+1 000 000 00 01',
@@ -8,7 +10,7 @@ export const getContacts = () => ([
     email: 'petr1iy@mail.com'
   },
   {
-    id: 102,
+    id: shortid.generate(),
     name: 'John',
     lastName: 'Nhoj',
     tel: '+0 999 999 99 99',
@@ -16,7 +18,7 @@ export const getContacts = () => ([
     email: 'jnhoj@gmail.com'
   },
   {
-    id: 103,
+    id: shortid.generate(),
     name: 'Keyn',
     lastName: 'Melnikov',
     tel: '+1 0000 123 789',

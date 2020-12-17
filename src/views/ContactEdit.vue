@@ -1,7 +1,7 @@
 <template>
   <div class="contacts">
     <h1> {{ title }} </h1>
-    <div>
+    <div v-if="isEdited">
       <input
         v-for="(val, key) in contact"
         :key="key"
@@ -14,18 +14,40 @@
         @input="onChange"
       >
     </div>
+    <div v-if="!isEdited">
+      <input
+        v-for="(val, key) in fieldsToObj"
+        :key="key"
+        :disabled="fieldsToObj[key].primary"
+        type="text"
+        class="input"
+        :name="key"
+        :placeholder="fieldsToObj[key].title"
+        :value="newContact[fieldsToObj[key].name]"
+        @input="onChangeNew"
+      >
+    </div>
     <div>
       <div
+        v-if="isEdited"
         class="button"
         @click="onReset"
       >
-        Reset Changes
+        Reset to previous
       </div>
       <div
+        v-if="isEdited"
         class="button button-edit"
         @click="onSave"
       >
-        Save Contact
+        Save Changes
+      </div>
+      <div
+        v-else
+        class="button button-edit"
+        @click="onCreate"
+      >
+        Create Contact
       </div>
     </div>
   </div>
@@ -33,13 +55,22 @@
 
 <script>
 import { fieldsMixin } from '@/mixins/fields'
+import shortid from 'shortid'
+
 export default {
   mixins: [fieldsMixin],
   data() {
     return {
-      disabled: false,
-      title: `Edit contact - ${this.$store.getters.getContact(this.$route.params.id).name}`,
-      contact: this.$store.getters.getContact(this.$route.params.id)
+      contact: this.$store.getters.getContact(this.$route.params.id),
+      isEdited: this.$route.params.id ? true : false,
+      newContact: {
+        id: shortid.generate()
+      }
+    }
+  },
+  computed: {
+    title() {
+      return this.isEdited ? 'Edit Contact' : 'Create new Contact'
     }
   },
   methods: {
@@ -47,9 +78,17 @@ export default {
       const { name, value } = val.target 
       this.contact[name] = value
     },
+    onChangeNew(val){
+      const { name, value } = val.target 
+      this.newContact[name] = value
+    },
     onSave() {
       this.$store.dispatch('saveContact', this.contact)
       this.$router.push('/contacts') // @FIXME - need push after changes
+    },
+    onCreate() {
+      this.$store.dispatch('createContact', this.newContact)
+      this.$router.push('/contacts') // @FIXME - need push after create
     },
     onReset() {
       this.contact = JSON.parse(localStorage.getItem('currentContact'))

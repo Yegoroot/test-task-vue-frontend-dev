@@ -1,6 +1,6 @@
 <template>
   <div class="contacts">
-    <h1>{{ title }}</h1>
+    <h1>My Contact List 📖</h1>
     <div
       v-for="contact in contacts"
       :key="contact.id"
@@ -11,9 +11,12 @@
         @onDelete="onDelete"
       />
     </div>
-    <div class="contacts__create button">
+    <router-link
+      :to="`/contacts/create`"
+      class="contacts__create button"
+    >
       Create New
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -24,18 +27,11 @@ import Contact from '@/components/Contact'
 export default {
   name: 'Contacts',
   components: { Contact },
-  data() {
-    return {
-      title: 'My Contact List 📖'
-      // contacts: this.$store.getters.contacts
-    }
-  },
   computed: {
     contacts() {
       return this.$store.getters.getContacts
     }
   },
-
   methods: {
     onDelete(id) {
       if (confirm('Delete this line'))

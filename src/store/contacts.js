@@ -20,6 +20,9 @@ export default {
     },
     saveContact({ commit }, payload) {
       commit('SAVE_CONTACT', payload)
+    },
+    createContact({ commit }, payload) {
+      commit('CREATE_CONTACT', payload)
     }
   },
   mutations: {
@@ -36,7 +39,10 @@ export default {
         } 
         return c
       })
-    } 
+    },
+    CREATE_CONTACT(state, newContact) {
+      state.contacts.push(newContact)
+    }
   }
 
 }
