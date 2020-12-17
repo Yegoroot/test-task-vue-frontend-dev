@@ -3,14 +3,14 @@
     <h1> {{ title }} </h1>
     <div>
       <input
-        v-for="input in contactToArray"
-        :key="input[0]"
-        :disabled="fieldsToObj[input[0]].primary"
+        v-for="(val, key) in contact"
+        :key="key"
+        :disabled="fieldsToObj[key].primary"
         type="text"
         class="input"
-        :name="input[0]"
-        :placeholder="fieldsToObj[input[0]].title"
-        :value="input[1]"
+        :name="key"
+        :placeholder="fieldsToObj[key].title"
+        :value="val"
         @input="onChange"
       >
     </div>
@@ -32,28 +32,16 @@
 </template>
 
 <script>
-
+import { fieldsMixin } from '@/mixins/fields'
 export default {
+  mixins: [fieldsMixin],
   data() {
     return {
       disabled: false,
       title: `Edit contact - ${this.$store.getters.getContact(this.$route.params.id).name}`,
-      contact: this.$store.getters.getContact(this.$route.params.id),
-      fields: this.$store.getters.fields
+      contact: this.$store.getters.getContact(this.$route.params.id)
     }
   },
-  computed: {
-    fieldsToObj() {
-      const obj = {}
-      this.fields.map( field => obj[field.name] = field )
-      return obj
-    },
-    contactToArray() {
-      return Object.entries(this.contact)
-    }
-
-  },
-
   methods: {
     onChange(val){
       const { name, value } = val.target 

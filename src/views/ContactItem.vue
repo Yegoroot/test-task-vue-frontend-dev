@@ -1,31 +1,18 @@
 <template>
   <div class="contacts">
-    <h1> Show contact - {{ user.name }} {{ user.lastName }}</h1>
+    <h1> Show contact - {{ contact.name }} {{ contact.lastName }}</h1>
     <div class="contact">
-      <div>
-        <span>Name</span>
-        <span>{{ user.name }}</span>
-      </div>
-      <div>
-        <span>Last Name</span>
-        <span>{{ user.lastName }}</span>
-      </div>
-      <div>
-        <span>Telephone</span>
-        <span>{{ user.tel }}</span>
-      </div>
-      <div>
-        <span>City</span>
-        <span>{{ user.city }}</span>
-      </div>
-      <div>
-        <span>Email</span>
-        <span>{{ user.email }}</span>
+      <div
+        v-for="(val, key) in contact"
+        :key="key"
+      >
+        <span>{{ fieldsToObj[key].title }}</span>
+        <span>{{ val }}</span>
       </div>
     </div>
   
     <router-link
-      :to="`/contacts/${user.id}/edit`"
+      :to="`/contacts/${contact.id}/edit`"
       class="button-edit button"
     >
       Edit Contact
@@ -34,12 +21,12 @@
 </template>
 
 <script>
-import { getContacts } from '@/mock/contacts'
+import { fieldsMixin } from '@/mixins/fields'
 export default {
+  mixins: [fieldsMixin],
   data() {
     return {
-      disabled: true,
-      user: getContacts().find(u => u.id == this.$route.params.id) || {}
+      contact: this.$store.getters.getContact(this.$route.params.id)
     }
   }
 }
@@ -55,7 +42,7 @@ export default {
 
 .contact {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .contact > div {
   display: flex;
