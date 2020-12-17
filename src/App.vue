@@ -78,5 +78,11 @@ a.router-link-exact-active {
 .button-edit {
   margin-top: 40px;
 }
-
+.input {
+  padding: 10px;
+  margin-right: 16px;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
 </style>

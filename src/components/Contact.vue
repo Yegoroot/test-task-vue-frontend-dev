@@ -2,11 +2,11 @@
   <div class="contact">
     <div class="contact__items">
       <div
-        v-for="field in fields"
-        :key="field.name"
-        :class="`contact__${field.name}`"
+        v-for="(val, key) in contact"
+        :key="key"
+        :class="`contact__${key}`"
       >
-        {{ contact[field.name] }}
+        {{ val }}
       </div>
     </div>
     <div class="contact__actions">

@@ -1,7 +1,7 @@
 export const fieldsMixin = {
   data(){
     return {
-      fields: this.$store.getters.fields
+      fields: this.$store.getters.getFields
     }
   },
   computed: {
