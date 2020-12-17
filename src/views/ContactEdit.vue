@@ -3,48 +3,14 @@
     <h1> {{ title }} </h1>
     <div>
       <input
-        :disabled="disabled"
+        v-for="input in contactToArray"
+        :key="input[0]"
+        :disabled="fieldsToObj[input[0]].primary"
         type="text"
         class="input"
-        name="name"
-        placeholder="Name"
-        :value="user.name"
-        @input="onChange"
-      >
-      <input
-        :disabled="disabled"
-        type="text"
-        placeholder="Last Name"
-        class="input"
-        name="lastName"
-        :value="user.lastName"
-        @input="onChange"
-      >
-      <input
-        :disabled="disabled"
-        placeholder="Telephone"
-        type="text"
-        class="input"
-        name="tel"
-        :value="user.tel"
-        @input="onChange"
-      >
-      <input
-        :disabled="disabled"
-        type="text"
-        placeholder="City"
-        class="input"
-        name="city"
-        :value="user.city"
-        @input="onChange"
-      >
-      <input
-        :disabled="disabled"
-        type="text"
-        placeholder="Email"
-        class="input"
-        name="email"
-        :value="user.email"
+        :name="input[0]"
+        :placeholder="fieldsToObj[input[0]].title"
+        :value="input[1]"
         @input="onChange"
       >
     </div>
@@ -66,28 +32,39 @@
 </template>
 
 <script>
-import { getContact } from '@/services/contacts'
 
 export default {
   data() {
     return {
       disabled: false,
-      user: getContact(this.$route.params.id),
-      title: `Edit contact - ${getContact(this.$route.params.id).name}`,
-      inputs: []
+      title: `Edit contact - ${this.$store.getters.getContact(this.$route.params.id).name}`,
+      contact: this.$store.getters.getContact(this.$route.params.id),
+      fields: this.$store.getters.fields
     }
+  },
+  computed: {
+    fieldsToObj() {
+      const obj = {}
+      this.fields.map( field => obj[field.name] = field )
+      return obj
+    },
+    contactToArray() {
+      return Object.entries(this.contact)
+    }
+
   },
 
   methods: {
     onChange(val){
       const { name, value } = val.target 
-      this.user[name] = value
+      this.contact[name] = value
     },
     onSave() {
-      console.warn('sent')
+      this.$store.dispatch('saveContact', this.contact)
+      this.$router.push('/contacts') // @FIXME - need push after changes
     },
     onReset() {
-      this.user = JSON.parse(localStorage.getItem('currentContact'))
+      this.contact = JSON.parse(localStorage.getItem('currentContact'))
     }
   }
 }
